@@ -34,8 +34,7 @@ TODO
 
 ### Installing
 
-- How/where to download your program
-- Any modifications needed to be made to files/folders
+TODO
 
 #### Packages
 
