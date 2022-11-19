@@ -1,14 +1,14 @@
-# mccc_auto_update 0.1
+# The Sims 4 Helper 0.1
 
-Auto-updates The Sims 4 mod MCCC and other automation processes such as
+Helps manage The Sims 4 by updating some mods (public version only mccc) and other automation processes:
 - cache clean up TODO
-- save back up TODO
-- mod back up TODO
+- save back ups TODO
+- mod back ups TODO
 - etc.
 
 ## Description
 
-Something I put together for automating processes for The Sims 4 such as updating mods for me and my sister.
+Something I put together for my sister. She doesn't know how to update script mods so I thre this together along with other helpful methods.
 
 If you are interested in a fully fledged Mod Manager for TS4, 
 you shouold look [@ CursedForge](https://thesims4.curseforge.com)! 
