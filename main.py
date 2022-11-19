@@ -6,6 +6,7 @@ import tkinter as tk
 
 from general import get_current_game_ver
 from mods import mc_cc
+from scripts import delete_ts4_cache
 
 # TODO put in config file, vars are used in two files
 DOWNLOAD_PATH = f"./tmp" 
@@ -65,6 +66,8 @@ def main():
         window.mainloop()
 
     del_tmp()
+    
+    delete_ts4_cache.run()
 
 
 if __name__ == "__main__":
