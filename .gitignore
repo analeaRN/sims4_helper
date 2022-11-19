@@ -1,0 +1,13 @@
+
+# dir produced by script
+sav
+tmp
+
+# dev files/dir produced
+env
+__pycache__
+
+private*
+*driver*
+tests
+*dev*

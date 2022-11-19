@@ -1,0 +1,7 @@
+# NOT USED YET
+---
+general:
+  download_path: "./tmp"  # What dir should be used for scratch space.
+  saved_path: "./sav"     # where old mod files should go
+  del_tmp_on_done: True   # del tmp dir after running script... (THIS DELETES THE ENTIRE DIR)
+...
