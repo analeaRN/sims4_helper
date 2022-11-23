@@ -2,10 +2,9 @@ import logging
 from os import path, chdir, getcwd
 from pathlib import Path
 from shutil import rmtree
-import tkinter as tk
 
-from general import get_current_game_ver
-from mods import mc_cc
+
+from scripts import delete_ts4_cache
 
 # TODO put in config file, vars are used in two files
 DOWNLOAD_PATH = f"./tmp" 
@@ -48,23 +47,7 @@ def del_tmp():
 
 def main():
     init()
-    window = tk.Tk()
-    game_version = get_current_game_ver()
-
-    try:
-        mc_cc.run(game_version)
-    except Exception as e:
-        error_message = tk.Label(
-            text=str(e),
-            fg="white",
-            bg="black",
-            width=140,
-            height=40
-        )
-        error_message.pack()
-        window.mainloop()
-
-    del_tmp()
+    delete_ts4_cache.run()
 
 
 if __name__ == "__main__":
