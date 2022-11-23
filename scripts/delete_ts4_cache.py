@@ -1,13 +1,13 @@
 """
 Deletes The Sims 4's cache files.
 
-Cleaning up the cache files help performance and fix unknown problems.
+Cleaning up cache files help performance and fix unknown problems.
 
-It is advised to run this whenever:
-- there is a new patch
-- new cc is installed
-- cc is removed
-- your game acts buggy
+It is advised to run this script when:
+- There is a new patch
+- New cc is installed
+- CC is removed
+- The game acts buggy
 
 This process follows the recommended steps in
 [this post](https://www.carls-sims-4-guide.com/help/cache.php)
@@ -19,7 +19,23 @@ from pathlib import Path
 from shutil import rmtree
 
 
-def run():
+def run(method: str = ""):
+    """This methods clears TS4 cache
+
+    There are different recommended ways of clearing the cache dir.
+    To choose how you would like to clear the cache, pass through
+
+    - all
+    - except_cfg
+    - default
+
+    If the argument passed through doesn't match the above, the default
+    means of clearing cache will follow.
+    """
+    clean_cache(method)
+
+
+def clean_cache(cache_del_method="default"):
     """Deletes cached files in sims4 game dir for better game play
 
     deletes files:
@@ -32,63 +48,48 @@ def run():
 
     cleans dir:
     - cachestr
-    - cache (cleans files with [.cache, .jpg, .dat] exts.)
+    - cache (cleans files based on what is selected)
+        - [.cache, .jpg, .dat] extensions.
+        - all files
+        - all files except FileCache.cfg
     """
-    files = chain((
+    # get all constant dir and files to delete
+    del_files = chain((
         Path(GAME_DOC_DIR) / "localthumbcache.package",
         Path(GAME_DOC_DIR) / "cachewebkit",
-        *(Path(GAME_DOC_DIR) / "cachestr").iterdir()),
-        *map((Path(GAME_DOC_DIR) / "cache").glob, ("*.cache", "*.jpg", "*.dat")))
-
+        *(Path(GAME_DOC_DIR) / "cachestr").iterdir())
+    )
     dir = [
         Path(GAME_DOC_DIR) / "onlinethumbnailcache",
         Path(GAME_DOC_DIR) / "lotcachedata",
     ]
 
-    for f in files:
-        print(f)
+    # get the files in cache dir to delete (based on arg passed through)
+    cache_path = Path(GAME_DOC_DIR) / "cache"
+    if cache_del_method == "all":
+        del_files = chain(del_files, cache_path.glob("*"))
+    elif cache_del_method == "except_cfg":
+        del_files = chain(del_files, [
+            file for file in cache_path.glob("*")
+            if file.name != "FileCache.cfg"])
+    else:
+        # safest
+        del_files = chain(del_files, *map(cache_path.glob,
+                          ("*.cache", "*.jpg", "*.dat")))
+
+    # delete
+    for f in del_files:
+        print(f"Attempting to delete: {f.name}", end=" ")
         if f.exists():
-            print("deleting...")
+            print("[DELETED]")
             f.unlink()
         else:
-            print("could not delete", f)
+            print("[NOT FOUND]")
 
     for d in dir:
-        print(d)
+        print(f"Attempting to delete: {d.name}", end=" ")
         if d.exists():
+            print("[DELETED]")
             rmtree(d)
-
-
-def expanded_run():
-    """Follows step by step the instructions from link to clear cache"""
-    # 1. Delete the localthumbscache.package
-    local_thumbs_cache = Path(GAME_DOC_DIR) / "localthumbcache.package"
-    if local_thumbs_cache.exists():
-        local_thumbs_cache.unlink()
-
-    # 2. Go inside the cache folder and delete all files w/ ext (cache|jpg|dat)
-    cache_dir = Path(GAME_DOC_DIR) / "cache"
-    # cache_files = cache_dir.glob("*.@(cache|jpg|dat)")  # :/
-    file_ext = ("*.cache", "*.jpg", "*.dat")
-    for file in chain(*map(cache_dir.glob, file_ext)):
-        file.unlink()
-
-    # 3. Delete all files in cachestr
-    cache_str = Path(GAME_DOC_DIR) / "cachestr"
-    for file in cache_str.iterdir():
-        file.unlink()
-
-    # 4. del onlinethumbnailcache folder
-    online_thumbnail_cache = Path(GAME_DOC_DIR) / "onlinethumbnailcache"
-    if online_thumbnail_cache.exists():
-        rmtree(online_thumbnail_cache)
-
-    # delete  cachewebkit file and lotcachedata dir
-    cache_web_kit = Path(GAME_DOC_DIR) / "cachewebkit"
-    if cache_web_kit.exists():
-        cache_web_kit.unlink()
-
-    lot_cache_data = Path(GAME_DOC_DIR) / "lotcachedata"
-    if lot_cache_data.exists():
-        rmtree(lot_cache_data)
-        print("lot_cache_data has been deleted")
+        else:
+            print("[NOT FOUND]")

@@ -71,4 +71,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    delete_ts4_cache.run()
+    
